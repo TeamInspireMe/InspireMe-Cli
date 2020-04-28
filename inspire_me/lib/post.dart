@@ -1,73 +1,130 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Post extends StatelessWidget {
-  /*String title='my post';
-  int hour=4;
-  int likes=43;
-  int dislikes=2;
-  List<String> comments=['très bien','merveilleux'];
+class Post extends StatefulWidget {
+  @override
+  _PostState createState() => _PostState();
+}
+
+class _PostState extends State<Post> {
+  String title = 'my post';
+  int hour = 4;
+  int likes = 43;
+  int dislikes = 2;
+  List<String> comments = ['très bien', 'merveilleux'];
   String url;
-  String category='voyage';*/
+  String category = 'voyage';
+  bool liked = false;
+  bool disliked = false;
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical:10.0),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal:15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('title',style:TextStyle(fontSize:30.0)),
-                  Column(
-                    children: <Widget>[
-                      Text('category',style:TextStyle(fontSize:20.0,color: Colors.grey)),
-                      Text('hour.toString()',style:TextStyle(fontSize:20.0,color: Colors.grey)),
-                    ],
-                  ),
-                ],
-              ),
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('$title', style: TextStyle(fontSize: 30.0)),
+                Column(
+                  children: <Widget>[
+                    Text('$category',
+                        style: TextStyle(fontSize: 20.0, color: Colors.grey)),
+                    Text('$hour h',
+                        style: TextStyle(fontSize: 20.0, color: Colors.grey)),
+                  ],
+                ),
+              ],
             ),
-            Image.asset('assets/post1.png', width: double.infinity,fit: BoxFit.cover),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical:5.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment : CrossAxisAlignment.end,
-                children: <Widget>[
-                  Row(
-                    crossAxisAlignment : CrossAxisAlignment.end,
-                    children: <Widget>[
-                      SvgPicture.asset('icons/uparrow.svg',color: Colors.orange,),
-                      Text('5K',style: TextStyle(color:Colors.orange))
-                    ],
-                  ),
-                  Row(
-                    crossAxisAlignment : CrossAxisAlignment.end,
-                    children: <Widget>[
-                      SvgPicture.asset('icons/downarrow.svg',color: Colors.red,),
-                      Text('49',style: TextStyle(color:Colors.red))
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.comment,color: Colors.grey,),
-                      Text('63',style: TextStyle(color:Colors.grey))
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.share,color: Colors.grey,),
-                      Text('Share',style: TextStyle(color:Colors.grey))
-                    ],
-                  ),
-                ],
+          ),
+          Image.asset('assets/post1.png',
+              width: double.infinity, fit: BoxFit.cover),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  if (liked == false) {
+                    setState(() {
+                      liked = true;
+                    });
+                  } else if (liked == true) {
+                    setState(() {
+                      liked = false;
+                    });
+                  }
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    SvgPicture.asset(
+                      'icons/uparrow.svg',
+                      color: liked ? Colors.orange : Colors.grey,
+                    ),
+                    Text('$likes',
+                        style: TextStyle(
+                            color: liked ? Colors.orange : Colors.grey))
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
+              FlatButton(
+                onPressed: () {
+                  if (disliked == false) {
+                    setState(() {
+                      disliked = true;
+                    });
+                  } else if (disliked == true) {
+                    setState(() {
+                      disliked = false;
+                    });
+                  }
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    SvgPicture.asset(
+                      'icons/downarrow.svg',
+                      color: disliked ? Colors.red : Colors.grey,
+                    ),
+                    Text('$dislikes',
+                        style: TextStyle(
+                            color: disliked ? Colors.red : Colors.grey))
+                  ],
+                ),
+              ),
+              FlatButton(
+                onPressed: () {},
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                     SvgPicture.asset(
+                      'icons/comment.svg',
+                       color: Colors.grey,
+                    ),
+                    Text('${comments.length}',
+                        style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+              ),
+              FlatButton(
+                onPressed: () {},
+                child: Row(
+                  children: <Widget>[
+                     SvgPicture.asset(
+                      'icons/share.svg',
+                      color: Colors.grey,
+                    ),
+                    Text('Share', style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
