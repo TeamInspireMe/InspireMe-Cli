@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './category.dart';
 import './post.dart';
+import './add.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,6 +9,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  add(){
+    print('adding post');
+  }
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -59,12 +63,7 @@ class _HomeState extends State<Home> {
             children: <Widget>[Post(), Post()],
           ),
         ]),
-        floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.orange,
-            onPressed: () {
-              print('add');
-            },
-            child: Icon(Icons.add)),
+        floatingActionButton: AddButton(add:add)
       ),
     );
   }
