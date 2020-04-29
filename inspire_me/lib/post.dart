@@ -16,6 +16,31 @@ class _PostState extends State<Post> {
   String category = 'voyage';
   bool liked = false;
   bool disliked = false;
+
+  Widget interact(state, action) {
+    if (state == false) {
+      setState(() {
+        if (action == 'likes') {
+          likes += 1;
+          liked = true;
+        } else if (action == 'dislikes') {
+          dislikes += 1;
+          disliked = true;
+        }
+      });
+    } else if (state == true) {
+      setState(() {
+        if (action == 'likes') {
+          likes -= 1;
+          liked = false;
+        } else if (action == 'dislikes') {
+          dislikes -= 1;
+          disliked = false;
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,15 +72,7 @@ class _PostState extends State<Post> {
             children: <Widget>[
               FlatButton(
                 onPressed: () {
-                  if (liked == false) {
-                    setState(() {
-                      liked = true;
-                    });
-                  } else if (liked == true) {
-                    setState(() {
-                      liked = false;
-                    });
-                  }
+                  interact(liked, 'likes');
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -72,15 +89,7 @@ class _PostState extends State<Post> {
               ),
               FlatButton(
                 onPressed: () {
-                  if (disliked == false) {
-                    setState(() {
-                      disliked = true;
-                    });
-                  } else if (disliked == true) {
-                    setState(() {
-                      disliked = false;
-                    });
-                  }
+                  interact(disliked, 'dislikes');
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -100,9 +109,9 @@ class _PostState extends State<Post> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                     SvgPicture.asset(
+                    SvgPicture.asset(
                       'icons/comment.svg',
-                       color: Colors.grey,
+                      color: Colors.grey,
                     ),
                     Text('${comments.length}',
                         style: TextStyle(color: Colors.grey))
@@ -113,7 +122,7 @@ class _PostState extends State<Post> {
                 onPressed: () {},
                 child: Row(
                   children: <Widget>[
-                     SvgPicture.asset(
+                    SvgPicture.asset(
                       'icons/share.svg',
                       color: Colors.grey,
                     ),
