@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
             ])),
         body: TabBarView(children: [
           ListView(
-            children: <Widget>[Post(), Post()],
+            children: <Widget>[Post(), Post()],//remplacer par list.map((post)=> function(post).toList()), later
           ),
           ListView(
             children: <Widget>[Post(), Post()],

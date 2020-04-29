@@ -17,7 +17,7 @@ class _PostState extends State<Post> {
   bool liked = false;
   bool disliked = false;
 
-  Widget interact(state, action) {
+  void interact(state, action) {
     if (state == false) {
       setState(() {
         if (action == 'likes') {
@@ -57,7 +57,7 @@ class _PostState extends State<Post> {
                   children: <Widget>[
                     Text('$category',
                         style: TextStyle(fontSize: 20.0, color: Colors.grey)),
-                    Text('$hour h',
+                    Text('$hour h ago',
                         style: TextStyle(fontSize: 20.0, color: Colors.grey)),
                   ],
                 ),
