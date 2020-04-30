@@ -10,6 +10,26 @@ class PostDetailedView extends StatefulWidget {
 }
 
 class _PostDetailedViewState extends State<PostDetailedView> {
+  final controller = TextEditingController();
+  bool postable = false;
+
+  addComment(comment) {
+    widget.post.comments.add(Comment('user',comment,DateTime.now()));
+    FocusScope.of(context).unfocus();
+    controller.text ='';
+    setState(() {
+      postable = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +59,9 @@ class _PostDetailedViewState extends State<PostDetailedView> {
           ),
           Expanded(
               child: ListView(
-            children: widget.post.comments.map((comment) => Commentary(comment)).toList(),
+            children: widget.post.comments
+                .map((comment) => Commentary(comment))
+                .toList(),
           )),
         ],
       )),
@@ -51,13 +73,41 @@ class _PostDetailedViewState extends State<PostDetailedView> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Card(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          fillColor: Colors.grey[200],
-                          filled: true,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 5),
-                          border: InputBorder.none,
-                          hintText: 'Write comment ...'),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextField(
+                            onChanged: (text) {
+                              if (controller.text.length > 0) {
+                                setState(() {
+                                  postable = true;
+                                });
+                              }else if (controller.text.length ==0){
+                                setState(() {
+                                  postable = false;
+                                });
+                              }
+                            },
+                            controller: controller,
+                            decoration: InputDecoration(
+                                fillColor: Colors.grey[200],
+                                filled: true,
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 5),
+                                border: InputBorder.none,
+                                hintText: 'Write comment ...'),
+                          ),
+                        ),
+                        if (postable)
+                          IconButton(
+                            icon: const Icon(Icons.send),
+                            //tooltip: 'Next page',
+                            onPressed: () {
+                              addComment(controller.text);
+                            },
+                            color: Colors.orange,
+                          ),
+                      ],
                     ),
                   ),
                 ))),
@@ -76,6 +126,8 @@ class Commentary extends StatefulWidget {
 class _CommentaryState extends State<Commentary> {
   @override
   Widget build(BuildContext context) {
+    int difference = DateTime.now().difference(widget.comment.hour).inHours;
+
     return Card(
         margin: EdgeInsets.symmetric(vertical: 1.0),
         child: Padding(
@@ -90,7 +142,7 @@ class _CommentaryState extends State<Commentary> {
                             fontWeight: FontWeight.bold, fontSize: 15)),
                     SizedBox(width: 5),
                     Text(
-                      '${widget.comment.hour}h ago',
+                      '${difference}h ago',
                       style: TextStyle(color: Colors.grey),
                     )
                   ],

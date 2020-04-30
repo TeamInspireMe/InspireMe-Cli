@@ -39,15 +39,15 @@ class _PostViewState extends State<PostView> {
 
   @override
   Widget build(BuildContext context) {
+    int difference = DateTime.now().difference(widget.post.hour).inHours;
+
     return GestureDetector(
       onTap: () {
-          !widget.isView ? 
+          if(!widget.isView) 
            Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => PostDetailedView(widget.post)),
-          )
-          :
-          null;
+          );
         },
       child: Card(
         margin: EdgeInsets.symmetric(vertical: 2.0),
@@ -66,7 +66,7 @@ class _PostViewState extends State<PostView> {
                         Text('${widget.post.category}',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.grey)),
-                        Text('${widget.post.hour}h ago',
+                        Text('${difference}h ago',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.grey)),
                       ],

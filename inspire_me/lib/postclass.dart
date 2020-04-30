@@ -1,6 +1,6 @@
 class Post {
   String title;
-  int hour;
+  DateTime hour;
   int likes;
   int dislikes;
   List<Comment> comments;
@@ -24,8 +24,12 @@ class Post {
 
 class Comment{
   String text;
-  int hour;
+  DateTime hour;
   String user;
   
   Comment(this.user,this.text,this.hour);
+}
+
+class Category{
+  //TODO
 }

@@ -12,25 +12,28 @@ class _HomeState extends State<Home> {
   List<Post> listPosts = [
     Post(
         '1st Post',
-        1,
+        DateTime(2020,04,30,13,00),
         52,
         3,
-        [Comment('Steevo','1st comment', 1)] ,
+        [Comment('Steevo','1st comment', DateTime(2020,04,30,12,30))] ,
         './assets/post1.png',
         'voyages',
         'Thomas'),
     Post(
         '2nd Post',
-        2,
+        DateTime(2020,04,29,23,45),
         15,
         1,
-        [Comment('Gab','Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 1),Comment('Marc','2nd comment', 2)] ,
+        [
+          Comment('Gab','Lorem ipsum dolor sit amet, consectetur adipiscing elit.', DateTime(2020,04,28,12,00)),
+          Comment('Marc','2nd comment', DateTime(2020,04,30,14,12))
+        ] ,
         './assets/post1.png',
         'funny',
         'Jean'),
     Post(
         '3rd Post',
-        3,
+        DateTime(2020,04,30,23,18),
         154,
         43,
         [] ,
