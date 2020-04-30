@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import './postdetailedview.dart';
-import './postclass.dart';
+import '../class/postclass.dart';
 
 class PostView extends StatefulWidget {
   final bool isView;

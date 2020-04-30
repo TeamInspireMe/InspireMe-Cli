@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import './addpost.dart';
 
 class AddButton extends StatefulWidget {
-  final AddCallback add;
+  //final AddCallback add;
 
-  AddButton({this.add});
+  //AddButton({this.add});
 
   @override
   _AddButtonState createState() => _AddButtonState();
@@ -68,12 +69,19 @@ class _AddButtonState extends State<AddButton>
     isOpened = !isOpened;
   }
 
+  add() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddPost()),
+    );
+  }
+
   Widget photo() {
     return Container(
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          widget.add();
+          add();
         },
         tooltip: 'Picture',
         child: Icon(Icons.photo_library, color: Colors.red),
@@ -87,7 +95,7 @@ class _AddButtonState extends State<AddButton>
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          widget.add();
+          add();
         },
         tooltip: 'Video',
         child: Icon(Icons.video_library, color: Colors.red),
@@ -101,7 +109,7 @@ class _AddButtonState extends State<AddButton>
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          widget.add();
+          add();
         },
         tooltip: 'Text',
         child: Icon(
@@ -163,4 +171,4 @@ class _AddButtonState extends State<AddButton>
   }
 }
 
-typedef AddCallback = Function();
+//typedef AddCallback = Function();

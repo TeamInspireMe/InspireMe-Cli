@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:inspire_me/postview.dart';
-import './postclass.dart';
+import './postview.dart';
+import '../class/postclass.dart';
 
 class PostDetailedView extends StatefulWidget {
   final Post post;

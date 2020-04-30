@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './postview.dart';
-import './add.dart';
-import './postclass.dart';
+import './addbutton.dart';
+import '../class/postclass.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
         'Jean'),
     Post(
         '3rd Post',
-        DateTime(2020,04,30,23,18),
+        DateTime(2020,04,30,23,),
         154,
         43,
         [] ,
@@ -97,7 +97,7 @@ class _HomeState extends State<Home> {
               children: listPosts.map((post) => PostView(false,post)).toList(),
             ),
           ]),
-          floatingActionButton: AddButton(add: add)),
+          floatingActionButton: AddButton()),
     );
   }
 }
