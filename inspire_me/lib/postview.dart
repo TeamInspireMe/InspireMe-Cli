@@ -66,7 +66,7 @@ class _PostViewState extends State<PostView> {
                         Text('${widget.post.category}',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.grey)),
-                        Text('${widget.post.hour} h ago',
+                        Text('${widget.post.hour}h ago',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.grey)),
                       ],

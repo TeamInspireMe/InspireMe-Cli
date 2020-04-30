@@ -17,7 +17,7 @@ class _PostDetailedViewState extends State<PostDetailedView> {
         leading: BackButton(color: Colors.black),
         centerTitle: true,
         title: Text(
-          "Post by user",
+          "Post by ${widget.post.user}",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
