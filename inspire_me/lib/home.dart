@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './category.dart';
 import './post.dart';
 import './add.dart';
 
@@ -64,6 +63,21 @@ class _HomeState extends State<Home> {
           ),
         ]),
         floatingActionButton: AddButton(add:add)
+      ),
+    );
+  }
+}
+
+class Category extends StatelessWidget {
+  final String name;
+  Category({this.name});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Text(
+        name,
+        style: TextStyle(fontSize: 20, color: Colors.black),
       ),
     );
   }
