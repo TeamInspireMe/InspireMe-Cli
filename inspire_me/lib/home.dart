@@ -54,13 +54,13 @@ class _HomeState extends State<Home> {
             ])),
         body: TabBarView(children: [
           ListView(
-            children: <Widget>[Post(), Post()],//remplacer par list.map((post)=> function(post).toList()), later
+            children: <Widget>[Post(false), Post(false)],//remplacer par list.map((post)=> function(post).toList()), later
           ),
           ListView(
-            children: <Widget>[Post(), Post()],
+            children: <Widget>[Post(false), Post(false)],
           ),
           ListView(
-            children: <Widget>[Post(), Post()],
+            children: <Widget>[Post(false), Post(false)],
           ),
         ]),
         floatingActionButton: AddButton(add:add)
