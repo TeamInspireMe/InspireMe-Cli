@@ -3,21 +3,21 @@ import './user.dart';
 class Post {
   String title;
   DateTime hour;
-  int likes;
-  int dislikes;
+  int upVote;
+  int downVote;
   List<Comment> comments;
   String content;
   Section category;
-  bool liked = false;
-  bool disliked = false;
+  bool upVoted = false;
+  bool downVoted = false;
   User user;
   Type type;
 
   Post(
     this.title,
     this.hour,
-    this.likes,
-    this.dislikes,
+    this.upVote,
+    this.downVote,
     this.comments,
     this.content,
     this.category,
