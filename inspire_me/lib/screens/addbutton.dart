@@ -72,6 +72,7 @@ class _AddButtonState extends State<AddButton>
   }
 
   add(Type type) {
+    animate();
     if (type != Type.Text) {
       Navigator.push(
         context,
