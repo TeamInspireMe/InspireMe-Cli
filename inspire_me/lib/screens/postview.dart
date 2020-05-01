@@ -52,7 +52,7 @@ class _PostViewState extends State<PostView> {
       child: Card(
         margin: EdgeInsets.symmetric(vertical: 2.0),
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 10.0),
+          margin: EdgeInsets.fromLTRB(0, 10, 0, 2),
           child: Column(
             children: <Widget>[
               Padding(
@@ -85,17 +85,19 @@ class _PostViewState extends State<PostView> {
                           child: SingleChildScrollView(
                             child: Text(
                               '${widget.post.content}',
+                              textAlign: TextAlign.center, 
                               style: TextStyle(fontSize: 23),
                             ),
                           )),
                     ),
+              SizedBox(height: 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   FlatButton(
                     onPressed: () {
-                      interact(widget.post.upVote, 'likes');
+                      interact(widget.post.upVoted, 'likes');
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
