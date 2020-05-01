@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import './addpost.dart';
+import './addmediapost.dart';
+import './addtextpost.dart';
+import '../class/postclass.dart';
 
 class AddButton extends StatefulWidget {
   //final AddCallback add;
@@ -69,11 +71,18 @@ class _AddButtonState extends State<AddButton>
     isOpened = !isOpened;
   }
 
-  add() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AddPost()),
-    );
+  add(Type type) {
+    if (type != Type.Text) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AddMediaPost(type.toString())),
+      );
+    } else if (type == Type.Text) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AddTextPost(type.toString())),
+      );
+    }
   }
 
   Widget photo() {
@@ -81,7 +90,7 @@ class _AddButtonState extends State<AddButton>
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          add();
+          add(Type.Photo);
         },
         tooltip: 'Picture',
         child: Icon(Icons.photo_library, color: Colors.red),
@@ -95,7 +104,7 @@ class _AddButtonState extends State<AddButton>
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          add();
+          add(Type.Video);
         },
         tooltip: 'Video',
         child: Icon(Icons.video_library, color: Colors.red),
@@ -109,7 +118,7 @@ class _AddButtonState extends State<AddButton>
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          add();
+          add(Type.Text);
         },
         tooltip: 'Text',
         child: Icon(

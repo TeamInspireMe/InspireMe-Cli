@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './postview.dart';
 import '../class/postclass.dart';
+import '../class/user.dart';
 
 class PostDetailedView extends StatefulWidget {
   final Post post;
@@ -14,9 +15,13 @@ class _PostDetailedViewState extends State<PostDetailedView> {
   bool postable = false;
 
   addComment(comment) {
-    widget.post.comments.add(Comment('user',comment,DateTime.now()));
+    widget.post.comments.add(Comment(
+        User('email', 'Steeve', 'password', DateTime(2020, 05, 01, 13, 00),
+            'profilPic'),
+        comment,
+        DateTime.now()));
     FocusScope.of(context).unfocus();
-    controller.text ='';
+    controller.text = '';
     setState(() {
       postable = false;
     });
@@ -82,7 +87,7 @@ class _PostDetailedViewState extends State<PostDetailedView> {
                                 setState(() {
                                   postable = true;
                                 });
-                              }else if (controller.text.length ==0){
+                              } else if (controller.text.length == 0) {
                                 setState(() {
                                   postable = false;
                                 });
@@ -126,7 +131,7 @@ class Commentary extends StatefulWidget {
 class _CommentaryState extends State<Commentary> {
   @override
   Widget build(BuildContext context) {
-    int difference = DateTime.now().difference(widget.comment.hour).inHours;
+    int difference = DateTime.now().difference(widget.comment.createdAt).inHours;
 
     return Card(
         margin: EdgeInsets.symmetric(vertical: 1.0),

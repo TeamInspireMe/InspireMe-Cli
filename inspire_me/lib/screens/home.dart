@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './postview.dart';
 import './addbutton.dart';
 import '../class/postclass.dart';
+import '../class/user.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,34 +13,59 @@ class _HomeState extends State<Home> {
   List<Post> listPosts = [
     Post(
         '1st Post',
-        DateTime(2020,04,30,13,00),
+        DateTime(2020, 04, 30, 13, 00),
         52,
         3,
-        [Comment('Steevo','1st comment', DateTime(2020,04,30,12,30))] ,
+        [
+          Comment(
+              User('email', 'Steeve', 'password',
+                  DateTime(2020, 05, 01, 13, 00), 'profilPic'),
+              '1st comment',
+              DateTime(2020, 04, 30, 12, 30))
+        ],
         './assets/post1.png',
-        'voyages',
-        'Thomas'),
+        Section.Travels,
+        User('thomas@email.fr', 'Thomas', 'password',
+            DateTime(2020, 04, 30, 13, 00), 'profilPic'),
+        Type.Photo),
     Post(
         '2nd Post',
-        DateTime(2020,04,29,23,45),
+        DateTime(2020, 04, 29, 23, 45),
         15,
         1,
         [
-          Comment('Gab','Lorem ipsum dolor sit amet, consectetur adipiscing elit.', DateTime(2020,04,28,12,00)),
-          Comment('Marc','2nd comment', DateTime(2020,04,30,14,12))
-        ] ,
+          Comment(
+              User('email', 'Pierre', 'password',
+                  DateTime(2020, 05, 01, 13, 00), 'profilPic'),
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+              DateTime(2020, 04, 28, 12, 00)),
+          Comment(
+              User('email', 'Gab', 'password', DateTime(2020, 05, 01, 13, 00),
+                  'profilPic'),
+              '2nd comment',
+              DateTime(2020, 04, 30, 14, 12))
+        ],
         './assets/post1.png',
-        'funny',
-        'Jean'),
+        Section.Funny,
+        User('jean@email.fr', 'Jean', 'password',
+            DateTime(2020, 04, 31, 13, 00), 'profilPic'),
+        Type.Photo),
     Post(
         '3rd Post',
-        DateTime(2020,04,30,23,),
+        DateTime(
+          2020,
+          04,
+          30,
+          23,
+        ),
         154,
         43,
-        [] ,
+        [],
         './assets/post1.png',
-        'science',
-        'Pierre'),
+        Section.Motivation,
+        User('marc@email.fr', 'Marc', 'password',
+            DateTime(2020, 04, 31, 10, 00), 'profilPic'),
+        Type.Photo),
   ];
 
   add() {
@@ -88,13 +114,13 @@ class _HomeState extends State<Home> {
               ])),
           body: TabBarView(children: [
             ListView(
-              children: listPosts.map((post) => PostView(false,post)).toList(),
+              children: listPosts.map((post) => PostView(false, post)).toList(),
             ),
             ListView(
-              children: listPosts.map((post) => PostView(false,post)).toList(),
+              children: listPosts.map((post) => PostView(false, post)).toList(),
             ),
             ListView(
-              children: listPosts.map((post) => PostView(false,post)).toList(),
+              children: listPosts.map((post) => PostView(false, post)).toList(),
             ),
           ]),
           floatingActionButton: AddButton()),
