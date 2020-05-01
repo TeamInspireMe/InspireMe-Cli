@@ -75,12 +75,14 @@ class _AddButtonState extends State<AddButton>
     if (type != Type.Text) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AddMediaPost(type.toString())),
+        MaterialPageRoute(
+            builder: (context) => AddMediaPost(enumToString(type))),
       );
     } else if (type == Type.Text) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AddTextPost(type.toString())),
+        MaterialPageRoute(
+            builder: (context) => AddTextPost(enumToString(type))),
       );
     }
   }

@@ -37,3 +37,5 @@ class Comment{
 enum Section{Science,Travels,Funny,Motivation}
 
 enum Type{Text,Video,Photo}
+
+String enumToString(Object o) => o.toString().split('.').last;

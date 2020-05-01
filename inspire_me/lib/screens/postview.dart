@@ -63,7 +63,7 @@ class _PostViewState extends State<PostView> {
                     Text('${widget.post.title}', style: TextStyle(fontSize: 30.0)),
                     Column(
                       children: <Widget>[
-                        Text('${widget.post.category}',
+                        Text('${enumToString(widget.post.category)}',
                             style:
                                 TextStyle(fontSize: 20.0, color: Colors.grey)),
                         Text('${difference}h ago',

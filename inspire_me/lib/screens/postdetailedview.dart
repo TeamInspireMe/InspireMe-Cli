@@ -42,7 +42,7 @@ class _PostDetailedViewState extends State<PostDetailedView> {
         leading: BackButton(color: Colors.black),
         centerTitle: true,
         title: Text(
-          "Post by ${widget.post.user}",
+          "Post by ${widget.post.user.username}",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
@@ -142,7 +142,7 @@ class _CommentaryState extends State<Commentary> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Row(
                   children: <Widget>[
-                    Text('${widget.comment.user}',
+                    Text('${widget.comment.user.username}',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15)),
                     SizedBox(width: 5),
