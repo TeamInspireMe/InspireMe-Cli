@@ -1,29 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:inspire_me/class/postclass.dart';
+import 'package:inspire_me/class/user.dart';
+import 'package:inspire_me/screens/home.dart';
 import 'addbutton.dart';
 
-class AddTextPost extends StatefulWidget {
+class AddPost extends StatefulWidget {
   final String type;
   final ConfirmCallback confirm;
 
-  AddTextPost(this.type, this.confirm);
+  AddPost(this.type, this.confirm);
   @override
-  _AddTextPostState createState() => _AddTextPostState();
+  _AddTextState createState() => _AddTextState();
 }
 
-class _AddTextPostState extends State<AddTextPost> {
+class _AddTextState extends State<AddPost> {
   final _formKey = GlobalKey<FormState>();
   Section section;
   String title;
   String content;
 
-  test(Section section, String title, String content) {
-    print('${enumToString(section)} ${title} ${content}');
+  post(Section section, String title, String content) {
     FocusScope.of(context).unfocus();
+    widget.confirm(Post(
+        title,
+        DateTime.now(),
+        0,
+        0,
+        [],
+        content,
+        section,
+        User('email', 'Pierre', 'password', DateTime(2020, 05, 01, 13, 00),
+            'profilPic'),
+        Type.Text));
+     Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Home(),
+      ));
   }
 
   String _validateSection(Section _section) {
-    if(!isInSection(enumToString(_section))){
+    if (!isInSection(enumToString(_section))) {
       return 'Please select a category';
     }
     return null;
@@ -47,7 +64,7 @@ class _AddTextPostState extends State<AddTextPost> {
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   // If the form is valid, display a Snackbar.
-                  test(section, title, content);
+                  post(section, title, content);
                 }
               },
               child: Text(
@@ -85,12 +102,12 @@ class _AddTextPostState extends State<AddTextPost> {
               child: Container(
                 padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
                 child: TextFormField(
-                    /*validator: (value) {
+                    validator: (value) {
                       if (value.isEmpty) {
                         return 'Please enter your title';
                       }
                       return null;
-                    },*/
+                    },
                     onChanged: (text) {
                       setState(() {
                         title = text;

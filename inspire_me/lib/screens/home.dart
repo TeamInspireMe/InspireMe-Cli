@@ -68,8 +68,8 @@ class _HomeState extends State<Home> {
         Type.Text),
   ];
 
-  add() {
-    print('adding post');
+  add(Post post) {
+    listPosts.add(post);
   }
 
   @override

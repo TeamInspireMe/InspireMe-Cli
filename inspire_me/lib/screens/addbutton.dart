@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './addmediapost.dart';
 import './addtextpost.dart';
 import '../class/postclass.dart';
 
@@ -73,19 +72,11 @@ class _AddButtonState extends State<AddButton>
 
   add(Type type) {
     animate();
-    if (type != Type.Text) {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => AddMediaPost(enumToString(type))),
+            builder: (context) => AddPost(enumToString(type),widget.confirm)),
       );
-    } else if (type == Type.Text) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => AddTextPost(enumToString(type),widget.confirm)),
-      );
-    }
   }
 
   Widget photo() {
@@ -183,4 +174,4 @@ class _AddButtonState extends State<AddButton>
   }
 }
 
-typedef ConfirmCallback = Function();
+typedef ConfirmCallback = Function(Post post);
