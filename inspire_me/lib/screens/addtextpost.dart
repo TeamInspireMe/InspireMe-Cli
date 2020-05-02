@@ -22,8 +22,8 @@ class _AddTextPostState extends State<AddTextPost> {
     FocusScope.of(context).unfocus();
   }
 
-  String _validateSection(Section section) {
-    if(section.toString().length>1){
+  String _validateSection(Section _section) {
+    if(!isInSection(enumToString(_section))){
       return 'Please select a category';
     }
     return null;
@@ -85,12 +85,12 @@ class _AddTextPostState extends State<AddTextPost> {
               child: Container(
                 padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
                 child: TextFormField(
-                    validator: (value) {
+                    /*validator: (value) {
                       if (value.isEmpty) {
                         return 'Please enter your title';
                       }
                       return null;
-                    },
+                    },*/
                     onChanged: (text) {
                       setState(() {
                         title = text;

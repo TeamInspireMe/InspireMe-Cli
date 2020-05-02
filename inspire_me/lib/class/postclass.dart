@@ -39,3 +39,11 @@ enum Section{Science,Travels,Funny,Motivation}
 enum Type{Text,Video,Photo}
 
 String enumToString(Object o) => o.toString().split('.').last;
+
+isInSection(String str) {
+    for (Section cat in Section.values) {
+        if (enumToString(cat)==str)
+            return true;
+    }
+    return false;
+}
