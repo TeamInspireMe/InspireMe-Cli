@@ -3,7 +3,7 @@ library my_prj.globals;
 import 'package:inspire_me/class/postclass.dart';
 import 'package:inspire_me/class/user.dart';
 
-int cpt=10;
+int cpt = 10;
 
 List<Post> listPosts = [
   Post(
@@ -61,4 +61,16 @@ List<Post> listPosts = [
       User('marc@email.fr', 'Marc', 'password', DateTime(2020, 04, 31, 10, 00),
           'profilPic'),
       Type.Text),
+];
+
+List<User> listUsers = [
+  User('email', 'Steeve', 'password', DateTime(2020, 05, 01, 13, 00),
+      'profilPic'),
+  User('thomas@email.fr', 'Thomas', 'password', DateTime(2020, 04, 30, 13, 00),
+      'profilPic'),
+  User('jean@email.fr', 'Jean', 'password', DateTime(2020, 04, 31, 13, 00),
+      'profilPic'),
+  User('marc@email.fr', 'Marc', 'password', DateTime(2020, 04, 31, 10, 00),
+      'profilPic'),
+  User('email', 'Gab', 'password', DateTime(2020, 05, 01, 13, 00), 'profilPic'),
 ];

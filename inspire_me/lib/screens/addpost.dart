@@ -89,7 +89,8 @@ class _AddTextState extends State<AddPost> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.fromLTRB(20, 10, 280, 0),
+              margin: EdgeInsets.only(right:MediaQuery.of(context).size.width*0.6),
+              padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
               child: DropdownButtonFormField<Section>(
                 value: section,
                 hint: (Text('Select your category')),
