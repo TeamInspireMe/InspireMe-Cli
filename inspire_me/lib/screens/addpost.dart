@@ -1,11 +1,15 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:inspire_me/class/postclass.dart';
 import 'package:inspire_me/class/user.dart';
-import 'package:inspire_me/screens/home.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'addbutton.dart';
+import './home.dart';
+import '../library/globals.dart' as globals;
 
 class AddPost extends StatefulWidget {
-  final String type;
+  final Type type;
   final ConfirmCallback confirm;
 
   AddPost(this.type, this.confirm);
@@ -31,12 +35,12 @@ class _AddTextState extends State<AddPost> {
         section,
         User('email', 'Pierre', 'password', DateTime(2020, 05, 01, 13, 00),
             'profilPic'),
-        Type.Text));
-     Navigator.push(
+        widget.type));
+    Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Home(),
-      ));
+          builder: (context) => Home(),
+        ));
   }
 
   String _validateSection(Section _section) {
@@ -44,6 +48,12 @@ class _AddTextState extends State<AddPost> {
       return 'Please select a category';
     }
     return null;
+  }
+
+  setContent(text) {
+    setState(() {
+      content = text;
+    });
   }
 
   @override
@@ -56,7 +66,7 @@ class _AddTextState extends State<AddPost> {
         ),
         backgroundColor: Colors.white,
         title: Text(
-          "${widget.type} Post",
+          "${enumToString(widget.type)} Post",
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
@@ -119,23 +129,113 @@ class _AddTextState extends State<AddPost> {
               ),
             ),
             Divider(color: Colors.grey),
-            Flexible(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                child: TextFormField(
-                    onChanged: (text) {
-                      setState(() {
-                        content = text;
-                      });
-                    },
-                    decoration: InputDecoration.collapsed(
-                      hintText: 'Your inspirationnal text... (optionnal)',
-                    )),
-              ),
-            ),
+            Content(widget.type, setContent),
           ],
         ),
       ),
     );
+  }
+}
+
+class Content extends StatefulWidget {
+  final Type type;
+  final Function setContent;
+
+  Content(this.type, this.setContent);
+
+  @override
+  _ContentState createState() => _ContentState();
+}
+
+class _ContentState extends State<Content> {
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    Directory directory = await getApplicationDocumentsDirectory();
+    
+    final File newImage = await image.copy('${directory.path}/post${globals.cpt}.png');
+
+    globals.cpt++;
+
+    widget.setContent(newImage.path);
+  }
+
+  _library() {
+    getImage();
+  }
+
+  _camera() {}
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.type == Type.Text) {
+      return Flexible(
+        child: Container(
+          padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+          child: TextFormField(
+              onChanged: (text) {
+                widget.setContent(text);
+              },
+              decoration: InputDecoration.collapsed(
+                hintText: 'Your inspirationnal text... (optionnal)',
+              )),
+        ),
+      );
+    } else if (widget.type == Type.Photo) {
+      return Flexible(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 15.0),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Container(
+                      height: 90,
+                      width: 90,
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.red,
+                        child: Icon(
+                          Icons.camera_alt,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          _camera();
+                        },
+                        heroTag: "photo",
+                      ),
+                    ),
+                    Text(
+                      'Camera',
+                      style: TextStyle(fontSize: 16),
+                    )
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      height: 90,
+                      width: 90,
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.red,
+                        child: Icon(
+                          Icons.photo_library,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                        onPressed: () {
+                          _library();
+                        },
+                        heroTag: "library",
+                      ),
+                    ),
+                    Text('Library', style: TextStyle(fontSize: 16))
+                  ],
+                ),
+              ]),
+        ),
+      );
+    }
   }
 }

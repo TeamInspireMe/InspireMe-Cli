@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './addtextpost.dart';
+import './addpost.dart';
 import '../class/postclass.dart';
 
 class AddButton extends StatefulWidget {
@@ -75,7 +75,7 @@ class _AddButtonState extends State<AddButton>
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => AddPost(enumToString(type),widget.confirm)),
+            builder: (context) => AddPost(type,widget.confirm)),
       );
   }
 
