@@ -148,6 +148,8 @@ class Content extends StatefulWidget {
 }
 
 class _ContentState extends State<Content> {
+  File _image;
+
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -158,6 +160,10 @@ class _ContentState extends State<Content> {
     globals.cpt++;
 
     widget.setContent(newImage.path);
+
+    setState(() {
+      _image = image;
+    });
   }
 
   _library() {
@@ -185,55 +191,63 @@ class _ContentState extends State<Content> {
       return Flexible(
         child: Padding(
           padding: const EdgeInsets.only(top: 15.0),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Column(
+          child: Column(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Container(
-                      height: 90,
-                      width: 90,
-                      child: FloatingActionButton(
-                        backgroundColor: Colors.red,
-                        child: Icon(
-                          Icons.camera_alt,
-                          size: 50,
-                          color: Colors.white,
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          height: 90,
+                          width: 90,
+                          child: FloatingActionButton(
+                            backgroundColor: Colors.red,
+                            child: Icon(
+                              Icons.camera_alt,
+                              size: 50,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              _camera();
+                            },
+                            heroTag: "photo",
+                          ),
                         ),
-                        onPressed: () {
-                          _camera();
-                        },
-                        heroTag: "photo",
-                      ),
+                        Text(
+                          'Camera',
+                          style: TextStyle(fontSize: 16),
+                        )
+                      ],
                     ),
-                    Text(
-                      'Camera',
-                      style: TextStyle(fontSize: 16),
-                    )
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      height: 90,
-                      width: 90,
-                      child: FloatingActionButton(
-                        backgroundColor: Colors.red,
-                        child: Icon(
-                          Icons.photo_library,
-                          color: Colors.white,
-                          size: 50,
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          height: 90,
+                          width: 90,
+                          child: FloatingActionButton(
+                            backgroundColor: Colors.red,
+                            child: Icon(
+                              Icons.photo_library,
+                              color: Colors.white,
+                              size: 50,
+                            ),
+                            onPressed: () {
+                              _library();
+                            },
+                            heroTag: "library",
+                          ),
                         ),
-                        onPressed: () {
-                          _library();
-                        },
-                        heroTag: "library",
-                      ),
+                        Text('Library', style: TextStyle(fontSize: 16))
+                      ],
                     ),
-                    Text('Library', style: TextStyle(fontSize: 16))
-                  ],
-                ),
-              ]),
+                  ]),
+                  SizedBox(height: 25,),
+                  _image == null
+                  ? Text('No image selected.')
+                  :Expanded(child: Image.file(_image))
+            ],
+          ),
         ),
       );
     }
