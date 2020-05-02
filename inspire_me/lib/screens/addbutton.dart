@@ -4,9 +4,9 @@ import './addtextpost.dart';
 import '../class/postclass.dart';
 
 class AddButton extends StatefulWidget {
-  //final AddCallback add;
+  final ConfirmCallback confirm;
 
-  //AddButton({this.add});
+  AddButton(this.confirm);
 
   @override
   _AddButtonState createState() => _AddButtonState();
@@ -83,7 +83,7 @@ class _AddButtonState extends State<AddButton>
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => AddTextPost(enumToString(type))),
+            builder: (context) => AddTextPost(enumToString(type),widget.confirm)),
       );
     }
   }
@@ -183,4 +183,4 @@ class _AddButtonState extends State<AddButton>
   }
 }
 
-//typedef AddCallback = Function();
+typedef ConfirmCallback = Function();

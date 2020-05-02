@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
               children: listPosts.map((post) => PostView(false, post)).toList(),
             ),
           ]),
-          floatingActionButton: AddButton()),
+          floatingActionButton: AddButton(add)),
     );
   }
 }
