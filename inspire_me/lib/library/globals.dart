@@ -81,3 +81,5 @@ List<User> listUsers = [
       'profilPic'),
   User(5,'email', 'Gab', 'password', DateTime(2020, 05, 01, 13, 00), 'profilPic'),
 ];
+
+String url='localhost:8080/api/';

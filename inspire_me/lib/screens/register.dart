@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inspire_me/class/hexcolors.dart';
 import '../library/globals.dart' as globals;
+import 'package:http/http.dart' as http;
 
 import 'home.dart';
 import 'login.dart';
@@ -18,9 +19,9 @@ class _RegisterState extends State<Register> {
   String confirmPassword;
 
   register() {
-    print(_signUpKey.currentState.validate());
     if (_signUpKey.currentState.validate()) {
       print('${username} ${email} ${password} ${confirmPassword}');
+
     }
     //globals.isLogged = true;
   }
@@ -31,10 +32,6 @@ class _RegisterState extends State<Register> {
         MaterialPageRoute(
           builder: (context) => Login(),
         ));
-  }
-
-  forgotPassword() {
-    print('forgot');
   }
 
   //MediaQuery.of(context).size.width * 2 / 3
@@ -92,137 +89,134 @@ class _RegisterState extends State<Register> {
                   ),
                   Expanded(
                     flex: 2,
-                    child: Form(
-                        child: Column(
+                    child: Column(
                       children: <Widget>[
-                        Text('Username', style: TextStyle(fontSize: 20)),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10)),
-                          ),
-                          margin: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.15,
-                              vertical: 10),
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter your username';
-                              }
-                              return null;
-                            },
-                            onChanged: (text) {
-                              setState(() {
-                                username = text;
-                              });
-                            },
-                          ),
+                    Text('Username', style: TextStyle(fontSize: 20)),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                          horizontal:
+                              MediaQuery.of(context).size.width * 0.15,
+                          vertical: 10),
+                      child: TextFormField(validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter your username';
+                        }
+                        return null;
+                      }, onChanged: (text) {
+                        setState(() {
+                          username = text;
+                        });
+                      }),
+                    ),
+                    Text('Email', style: TextStyle(fontSize: 20)),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                          horizontal:
+                              MediaQuery.of(context).size.width * 0.15,
+                          vertical: 10),
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)) {
+                            return 'Please enter a correct email';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) {
+                          setState(() {
+                            email = text;
+                          });
+                        },
+                      ),
+                    ),
+                    Text('Password', style: TextStyle(fontSize: 20)),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                          horizontal:
+                              MediaQuery.of(context).size.width * 0.15,
+                          vertical: 10),
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your password';
+                          } else if (value.length < 8) {
+                            return 'Please enter a password with at least 8 characters';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) {
+                          setState(() {
+                            password = text;
+                          });
+                        },
+                      ),
+                    ),
+                    Text('Confirm Password',
+                        style: TextStyle(fontSize: 20)),
+                    Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
                         ),
-                        Text('Email', style: TextStyle(fontSize: 20)),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10)),
-                          ),
-                          margin: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.15,
-                              vertical: 10),
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter your email';
-                              } else if (!RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value)) {
-                                return 'Please enter a correct email';
-                              }
-                              return null;
-                            },
-                            onChanged: (text) {
-                              setState(() {
-                                email = text;
-                              });
-                            },
-                          ),
-                        ),
-                        Text('Password', style: TextStyle(fontSize: 20)),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10)),
-                          ),
-                          margin: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.15,
-                              vertical: 10),
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter your password';
-                              } else if (value.length < 8) {
-                                return 'Please enter a password with at least 8 characters';
-                              }
-                              return null;
-                            },
-                            onChanged: (text) {
-                              setState(() {
-                                password = text;
-                              });
-                            },
-                          ),
-                        ),
-                        Text('Confirm Password',
-                            style: TextStyle(fontSize: 20)),
-                        Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10)),
-                            ),
-                            margin: EdgeInsets.symmetric(
-                                horizontal:
-                                    MediaQuery.of(context).size.width * 0.15,
-                                vertical: 10),
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value != password) {
-                                  return 'Passwords are not the same';
-                                }
-                                return null;
-                              },
-                              onChanged: (text) {
-                                setState(() {
-                                  confirmPassword = text;
-                                });
-                              },
-                            )),
-                        SizedBox(height: 20),
-                        Container(
-                          width: 175,
-                          child: RawMaterialButton(
-                            fillColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: BorderSide(color: Colors.red)),
-                            onPressed: () {
-                              register();
-                            },
-                            child: Text('Register'),
-                          ),
-                        ),
-                        FlatButton(
-                            onPressed: () {
-                              goToLogin();
-                            },
-                            child: Text("Already have an account ?",
-                                style: TextStyle(fontSize: 15)))
+                        margin: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.15,
+                            vertical: 10),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value != password) {
+                              return 'Passwords are not the same';
+                            }
+                            return null;
+                          },
+                          onChanged: (text) {
+                            setState(() {
+                              confirmPassword = text;
+                            });
+                          },
+                        )),
+                    SizedBox(height: 20),
+                    Container(
+                      width: 175,
+                      child: RawMaterialButton(
+                        fillColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: Colors.red)),
+                        onPressed: () {
+                          register();
+                        },
+                        child: Text('Register'),
+                      ),
+                    ),
+                    FlatButton(
+                        onPressed: () {
+                          goToLogin();
+                        },
+                        child: Text("Already have an account ?",
+                            style: TextStyle(fontSize: 15)))
                       ],
-                    )),
+                    ),
                   )
                 ],
               ),

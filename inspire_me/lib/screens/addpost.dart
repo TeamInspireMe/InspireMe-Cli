@@ -74,7 +74,7 @@ class _AddTextState extends State<AddPost> {
           FlatButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  // If the form is valid, display a Snackbar.
+                  
                   post(section, title, content);
                 }
               },
