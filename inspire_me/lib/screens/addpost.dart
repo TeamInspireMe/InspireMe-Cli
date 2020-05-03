@@ -88,24 +88,28 @@ class _AddTextState extends State<AddPost> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right:MediaQuery.of(context).size.width*0.6),
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-              child: DropdownButtonFormField<Section>(
-                value: section,
-                hint: (Text('Select your category')),
-                validator: _validateSection,
-                decoration: InputDecoration.collapsed(hintText: ''),
-                icon: Icon(Icons.keyboard_arrow_down),
-                onChanged: (Section newSection) {
-                  setState(() {
-                    section = newSection;
-                  });
-                },
-                items: Section.values.map((Section classType) {
-                  return DropdownMenuItem<Section>(
-                      value: classType, child: Text(enumToString(classType)));
-                }).toList(),
+            Flexible(
+              child: Container(
+                margin: EdgeInsets.only(
+                    right: MediaQuery.of(context).size.width * 0.6),
+                padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                child: DropdownButtonFormField<Section>(
+                  isExpanded: false,
+                  value: section,
+                  hint: (Text('Select your category')),
+                  validator: _validateSection,
+                  decoration: InputDecoration.collapsed(hintText: ''),
+                  icon: Icon(Icons.keyboard_arrow_down),
+                  onChanged: (Section newSection) {
+                    setState(() {
+                      section = newSection;
+                    });
+                  },
+                  items: Section.values.map((Section classType) {
+                    return DropdownMenuItem<Section>(
+                        value: classType, child: Text(enumToString(classType)));
+                  }).toList(),
+                ),
               ),
             ),
             Divider(color: Colors.grey),
@@ -155,8 +159,9 @@ class _ContentState extends State<Content> {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     Directory directory = await getApplicationDocumentsDirectory();
-    
-    final File newImage = await image.copy('${directory.path}/post${globals.cpt}.png');
+
+    final File newImage =
+        await image.copy('${directory.path}/post${globals.cpt}.png');
 
     globals.cpt++;
 
@@ -243,10 +248,12 @@ class _ContentState extends State<Content> {
                       ],
                     ),
                   ]),
-                  SizedBox(height: 25,),
-                  _image == null
+              SizedBox(
+                height: 25,
+              ),
+              _image == null
                   ? Text('No image selected.')
-                  :Expanded(child: Image.file(_image))
+                  : Expanded(child: Image.file(_image))
             ],
           ),
         ),
