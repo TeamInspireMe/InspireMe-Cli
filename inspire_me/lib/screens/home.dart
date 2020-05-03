@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import './postview.dart';
 import './addbutton.dart';
 import '../class/postclass.dart';
-import '../class/user.dart';
 import '../library/globals.dart' as globals;
+import 'login.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,11 +11,26 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-
   add(Post post) {
-   globals.listPosts.add(post);
+    globals.listPosts.add(post);
   }
+
+  account() {
+    if(!globals.isLogged){
+      goToLogin();
+    }else{
+      
+    }
+  }
+
+  goToLogin(){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login(),
+        ));
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +62,9 @@ class _HomeState extends State<Home> {
                 IconButton(
                   icon: const Icon(Icons.account_circle),
                   //tooltip: 'Next page',
-                  onPressed: () {},
+                  onPressed: () {
+                    account();
+                  },
                   color: Colors.black,
                 ),
               ],
@@ -59,13 +76,19 @@ class _HomeState extends State<Home> {
               ])),
           body: TabBarView(children: [
             ListView(
-              children: globals.listPosts.map((post) => PostView(false, post)).toList(),
+              children: globals.listPosts
+                  .map((post) => PostView(false, post))
+                  .toList(),
             ),
             ListView(
-              children: globals.listPosts.map((post) => PostView(false, post)).toList(),
+              children: globals.listPosts
+                  .map((post) => PostView(false, post))
+                  .toList(),
             ),
             ListView(
-              children: globals.listPosts.map((post) => PostView(false, post)).toList(),
+              children: globals.listPosts
+                  .map((post) => PostView(false, post))
+                  .toList(),
             ),
           ]),
           floatingActionButton: AddButton(add)),

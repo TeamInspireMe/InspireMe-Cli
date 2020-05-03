@@ -26,6 +26,7 @@ class _AddTextState extends State<AddPost> {
   post(Section section, String title, String content) {
     FocusScope.of(context).unfocus();
     widget.confirm(Post(
+        globals.listPosts.length+1,
         title,
         DateTime.now(),
         0,
@@ -33,7 +34,7 @@ class _AddTextState extends State<AddPost> {
         [],
         content,
         section,
-        User('email', 'Pierre', 'password', DateTime(2020, 05, 01, 13, 00),
+        User(5,'email', 'Pierre', 'password', DateTime(2020, 05, 01, 13, 00),
             'profilPic'),
         widget.type));
     Navigator.push(
@@ -86,24 +87,30 @@ class _AddTextState extends State<AddPost> {
       body: Form(
         key: _formKey,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Flexible(
-              child: DropdownButtonFormField<Section>(
-                value: section,
-                hint: (Text('Select your category')),
-                validator: _validateSection,
-                decoration: InputDecoration.collapsed(hintText: ''),
-                icon: Icon(Icons.keyboard_arrow_down),
-                onChanged: (Section newSection) {
-                  setState(() {
-                    section = newSection;
-                  });
-                },
-                items: Section.values.map((Section classType) {
-                  return DropdownMenuItem<Section>(
-                      value: classType, child: Text(enumToString(classType)));
-                }).toList(),
+              child: Container(
+                margin: EdgeInsets.only(
+                    right: MediaQuery.of(context).size.width * 0.6),
+                padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                child: DropdownButtonFormField<Section>(
+                  isExpanded: false,
+                  value: section,
+                  hint: (Text('Select your category')),
+                  validator: _validateSection,
+                  decoration: InputDecoration.collapsed(hintText: ''),
+                  icon: Icon(Icons.keyboard_arrow_down),
+                  onChanged: (Section newSection) {
+                    setState(() {
+                      section = newSection;
+                    });
+                  },
+                  items: Section.values.map((Section classType) {
+                    return DropdownMenuItem<Section>(
+                        value: classType, child: Text(enumToString(classType)));
+                  }).toList(),
+                ),
               ),
             ),
             Divider(color: Colors.grey),

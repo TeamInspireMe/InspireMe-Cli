@@ -1,6 +1,7 @@
 import './user.dart';
 
 class Post {
+  int id;
   String title;
   DateTime hour;
   int upVote;
@@ -14,6 +15,7 @@ class Post {
   Type type;
 
   Post(
+    this.id,
     this.title,
     this.hour,
     this.upVote,
@@ -27,6 +29,7 @@ class Post {
 }
 
 class Comment{
+  int id;
   String text;
   DateTime createdAt;
   User user;

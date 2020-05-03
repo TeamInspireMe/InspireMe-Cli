@@ -16,7 +16,7 @@ class _PostDetailedViewState extends State<PostDetailedView> {
 
   addComment(comment) {
     widget.post.comments.add(Comment(
-        User('email', 'Steeve', 'password', DateTime(2020, 05, 01, 13, 00),
+        User(3,'email', 'Steeve', 'password', DateTime(2020, 05, 01, 13, 00),
             'profilPic'),
         comment,
         DateTime.now()));
