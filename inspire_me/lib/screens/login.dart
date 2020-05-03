@@ -16,8 +16,10 @@ class _LoginState extends State<Login> {
   String password;
 
   login() {
-    print('login');
-    globals.isLogged = true;
+     FocusScope.of(context).unfocus();
+    if (_loginKey.currentState.validate()) {
+    }
+    //globals.isLogged = true;
   }
 
   goToRegister() {
@@ -85,85 +87,90 @@ class _LoginState extends State<Login> {
                 Expanded(
                   flex: 3,
                   child: Form(
+                      key: _loginKey,
                       child: Column(
-                    children: <Widget>[
-                      Text('Email', style: TextStyle(fontSize: 20)),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                        ),
-                        margin: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.15,
-                            vertical: 10),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            return null;
-                          },
-                          onChanged: (text) {
-                            setState(() {
-                              email = text;
-                            });
-                          },
-                        ),
-                      ),
-                      Text('Password', style: TextStyle(fontSize: 20)),
-                      Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10)),
-                          ),
-                          margin: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.15,
-                              vertical: 10),
-                          child: TextFormField(
-                            validator: (value) {
+                        children: <Widget>[
+                          Text('Email', style: TextStyle(fontSize: 20)),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)),
+                            ),
+                            margin: EdgeInsets.symmetric(
+                                horizontal:
+                                    MediaQuery.of(context).size.width * 0.15,
+                                vertical: 10),
+                            child: TextFormField(
+                              validator: (value) {
                               if (value.isEmpty) {
-                                return 'Please enter your password';
+                                return 'Please enter your email';
+                              } else if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                                return 'Please enter a correct email';
                               }
                               return null;
                             },
-                            onChanged: (text) {
-                              setState(() {
-                                password = text;
-                              });
-                            },
-                          )),
-                      SizedBox(height: 20),
-                      Container(
-                        width: 175,
-                        child: RawMaterialButton(
-                          fillColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.red)),
-                          onPressed: () {
-                            login();
-                          },
-                          child: Text('Login'),
-                        ),
-                      ),
-                      FlatButton(
-                          onPressed: () {
-                            forgotPassword();
-                          },
-                          child: Text('Forgot password ?',
-                              style: TextStyle(fontSize: 15))),
-                      FlatButton(
-                          onPressed: () {
-                            goToRegister();
-                          },
-                          child: Text("Don't have an account ?",
-                              style: TextStyle(fontSize: 15)))
-                    ],
-                  )),
+                              onChanged: (text) {
+                                setState(() {
+                                  email = text;
+                                });
+                              },
+                            ),
+                          ),
+                          Text('Password', style: TextStyle(fontSize: 20)),
+                          Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10)),
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.15,
+                                  vertical: 10),
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter your password';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (text) {
+                                  setState(() {
+                                    password = text;
+                                  });
+                                },
+                              )),
+                          SizedBox(height: 20),
+                          Container(
+                            width: 175,
+                            child: RawMaterialButton(
+                              fillColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  side: BorderSide(color: Colors.red)),
+                              onPressed: () {
+                                login();
+                              },
+                              child: Text('Login'),
+                            ),
+                          ),
+                          FlatButton(
+                              onPressed: () {
+                                forgotPassword();
+                              },
+                              child: Text('Forgot password ?',
+                                  style: TextStyle(fontSize: 15))),
+                          FlatButton(
+                              onPressed: () {
+                                goToRegister();
+                              },
+                              child: Text("Don't have an account ?",
+                                  style: TextStyle(fontSize: 15)))
+                        ],
+                      )),
                 )
               ],
             ),
