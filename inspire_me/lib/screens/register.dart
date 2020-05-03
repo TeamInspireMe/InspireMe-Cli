@@ -100,7 +100,17 @@ class _RegisterState extends State<Register> {
                             horizontal:
                                 MediaQuery.of(context).size.width * 0.15,
                             vertical: 10),
-                        child: TextFormField(),
+                        child: TextFormField(validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your username';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) {
+                          setState(() {
+                            username = text;
+                          });
+                        },),
                       ),
                       Text('Email', style: TextStyle(fontSize: 20)),
                       Card(
@@ -113,7 +123,19 @@ class _RegisterState extends State<Register> {
                             horizontal:
                                 MediaQuery.of(context).size.width * 0.15,
                             vertical: 10),
-                        child: TextFormField(),
+                        child: TextFormField(validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your email';
+                          }else if(RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)){
+                            return 'Please enter a correct email';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) {
+                          setState(() {
+                            email = text;
+                          });
+                        },),
                       ),
                       Text('Password', style: TextStyle(fontSize: 20)),
                       Card(
@@ -126,7 +148,17 @@ class _RegisterState extends State<Register> {
                             horizontal:
                                 MediaQuery.of(context).size.width * 0.15,
                             vertical: 10),
-                        child: TextFormField(),
+                        child: TextFormField(validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your title';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) {
+                          setState(() {
+                            title = text;
+                          });
+                        },),
                       ),
                       Text('Confirm Password', style: TextStyle(fontSize: 20)),
                       Card(
@@ -139,7 +171,17 @@ class _RegisterState extends State<Register> {
                               horizontal:
                                   MediaQuery.of(context).size.width * 0.15,
                               vertical: 10),
-                          child: TextFormField()),
+                          child: TextFormField(validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your title';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) {
+                          setState(() {
+                            title = text;
+                          });
+                        },)),
                       SizedBox(height: 20),
                       Container(
                         width: 175,

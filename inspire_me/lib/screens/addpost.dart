@@ -84,69 +84,61 @@ class _AddTextState extends State<AddPost> {
               ))
         ],
       ),
-      //resizeToAvoidBottomInset :false,
-      body: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height -
-                  56 -
-                  MediaQuery.of(context).padding.top),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Flexible(
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.width * 0.6),
-                    padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                    child: DropdownButtonFormField<Section>(
-                      isExpanded: false,
-                      value: section,
-                      hint: (Text('Select your category')),
-                      validator: _validateSection,
-                      decoration: InputDecoration.collapsed(hintText: ''),
-                      icon: Icon(Icons.keyboard_arrow_down),
-                      onChanged: (Section newSection) {
-                        setState(() {
-                          section = newSection;
-                        });
-                      },
-                      items: Section.values.map((Section classType) {
-                        return DropdownMenuItem<Section>(
-                            value: classType,
-                            child: Text(enumToString(classType)));
-                      }).toList(),
-                    ),
-                  ),
+      resizeToAvoidBottomInset :false,
+      body: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Flexible(
+              child: Container(
+                margin: EdgeInsets.only(
+                    right: MediaQuery.of(context).size.width * 0.6),
+                padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                child: DropdownButtonFormField<Section>(
+                  isExpanded: false,
+                  value: section,
+                  hint: (Text('Select your category')),
+                  validator: _validateSection,
+                  decoration: InputDecoration.collapsed(hintText: ''),
+                  icon: Icon(Icons.keyboard_arrow_down),
+                  onChanged: (Section newSection) {
+                    setState(() {
+                      section = newSection;
+                    });
+                  },
+                  items: Section.values.map((Section classType) {
+                    return DropdownMenuItem<Section>(
+                        value: classType,
+                        child: Text(enumToString(classType)));
+                  }).toList(),
                 ),
-                Divider(color: Colors.grey),
-                Flexible(
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-                    child: TextFormField(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter your title';
-                          }
-                          return null;
-                        },
-                        onChanged: (text) {
-                          setState(() {
-                            title = text;
-                          });
-                        },
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Inspirationnal title',
-                        )),
-                  ),
-                ),
-                Divider(color: Colors.grey),
-                Content(widget.type, setContent),
-              ],
+              ),
             ),
-          ),
+            Divider(color: Colors.grey),
+            Flexible(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                child: TextFormField(
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter your title';
+                      }
+                      return null;
+                    },
+                    onChanged: (text) {
+                      setState(() {
+                        title = text;
+                      });
+                    },
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Inspirationnal title',
+                    )),
+              ),
+            ),
+            Divider(color: Colors.grey),
+            Content(widget.type, setContent),
+          ],
         ),
       ),
     );
