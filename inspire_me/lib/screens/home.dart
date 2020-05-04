@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inspire_me/screens/profile.dart';
 import './postview.dart';
 import './addbutton.dart';
 import '../class/postclass.dart';
@@ -19,7 +20,11 @@ class _HomeState extends State<Home> {
     if(!globals.isLogged){
       goToLogin();
     }else{
-      
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Profile(),
+        ));
     }
   }
 
@@ -27,7 +32,7 @@ class _HomeState extends State<Home> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Login(),
+          builder: (context) => Login(redirect: Redirect.Home,),
         ));
   }
 
@@ -77,17 +82,17 @@ class _HomeState extends State<Home> {
           body: TabBarView(children: [
             ListView(
               children: globals.listPosts
-                  .map((post) => PostView(false, post))
+                  .map((post) => PostView(isView: false, post: post))
                   .toList(),
             ),
             ListView(
               children: globals.listPosts
-                  .map((post) => PostView(false, post))
+                  .map((post) => PostView(isView: false, post: post))
                   .toList(),
             ),
             ListView(
               children: globals.listPosts
-                  .map((post) => PostView(false, post))
+                  .map((post) => PostView(isView: false, post: post))
                   .toList(),
             ),
           ]),

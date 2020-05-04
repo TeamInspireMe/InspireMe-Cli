@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inspire_me/class/api.dart';
 import 'package:inspire_me/class/hexcolors.dart';
+import 'package:inspire_me/class/postclass.dart';
 import 'package:inspire_me/class/user.dart';
+import 'package:inspire_me/screens/postdetailedview.dart';
 import 'package:inspire_me/screens/register.dart';
 import '../library/globals.dart' as globals;
 import 'package:http/http.dart' as http;
@@ -10,6 +12,10 @@ import 'dart:convert';
 import 'home.dart';
 
 class Login extends StatefulWidget {
+  final Redirect redirect;
+  final Post post;
+
+  const Login({Key key, this.redirect, this.post}) : super(key: key);
   @override
   _LoginState createState() => _LoginState();
 }
@@ -27,10 +33,7 @@ class _LoginState extends State<Login> {
           setState(() {
             globals.currentUser = user;
             globals.isLogged = true;
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Home()),
-            );
+            endAction();
           });
         });
       });
@@ -54,11 +57,29 @@ class _LoginState extends State<Login> {
     }
   }
 
+  endAction() {
+    if (widget.redirect == Redirect.Home) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
+    } else if (widget.redirect == Redirect.Post) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PostDetailedView(post: widget.post)),
+      );
+    }
+  }
+
   goToRegister() {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Register(),
+          builder: (context) => Register(
+            redirect: widget.redirect,
+            post: widget.post,
+          ),
         ));
   }
 
@@ -78,10 +99,7 @@ class _LoginState extends State<Login> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Home()),
-              );
+              endAction();
             }),
         elevation: 0,
         backgroundColor: HexColor('#F25C54'),

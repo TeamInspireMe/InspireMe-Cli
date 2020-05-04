@@ -3,19 +3,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import './postdetailedview.dart';
 import '../class/postclass.dart';
 import '../library/globals.dart' as globals;
+import 'login.dart';
 
 class PostView extends StatefulWidget {
   final bool isView;
   final Post post;
-  PostView(this.isView, this.post);
+  final Redirect redirect;
+  PostView({this.isView, this.post, this.redirect});
   @override
   _PostViewState createState() => _PostViewState();
 }
 
 class _PostViewState extends State<PostView> {
   void interact(state, action) {
-    if(!globals.isLogged){
-      
+    if (!globals.isLogged) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(),
+          ));
     }
     if (state == false) {
       setState(() {
@@ -50,7 +56,7 @@ class _PostViewState extends State<PostView> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => PostDetailedView(widget.post)),
+                builder: (context) => PostDetailedView(post: widget.post)),
           );
       },
       child: Card(
@@ -89,7 +95,7 @@ class _PostViewState extends State<PostView> {
                           child: SingleChildScrollView(
                             child: Text(
                               '${widget.post.content}',
-                              textAlign: TextAlign.center, 
+                              textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 23),
                             ),
                           )),

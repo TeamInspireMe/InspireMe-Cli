@@ -41,6 +41,8 @@ enum Section{Science,Travels,Funny,Motivation}
 
 enum Type{Text,Video,Photo}
 
+enum Redirect{Home,Post}
+
 String enumToString(Object o) => o.toString().split('.').last;
 
 isInSection(String str) {

@@ -3,10 +3,12 @@ import './postview.dart';
 import '../class/postclass.dart';
 import '../class/user.dart';
 import '../library/globals.dart' as globals;
+import 'home.dart';
+import 'login.dart';
 
 class PostDetailedView extends StatefulWidget {
   final Post post;
-  PostDetailedView(this.post);
+  PostDetailedView({this.post});
   @override
   _PostDetailedViewState createState() => _PostDetailedViewState();
 }
@@ -16,15 +18,24 @@ class _PostDetailedViewState extends State<PostDetailedView> {
   bool postable = false;
 
   addComment(comment) {
-    widget.post.comments.add(Comment(
-       globals.currentUser,
-        comment,
-        DateTime.now()));
-    FocusScope.of(context).unfocus();
-    controller.text = '';
-    setState(() {
-      postable = false;
-    });
+    if (!globals.isLogged) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(
+              redirect: Redirect.Post,
+              post: widget.post,
+            ),
+          ));
+    } else {
+      widget.post.comments
+          .add(Comment(globals.currentUser, comment, DateTime.now()));
+      FocusScope.of(context).unfocus();
+      controller.text = '';
+      setState(() {
+        postable = false;
+      });
+    }
   }
 
   @override
@@ -39,7 +50,18 @@ class _PostDetailedViewState extends State<PostDetailedView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.black),
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Home(),
+                  ));
+            }),
         centerTitle: true,
         title: Text(
           "Post by ${widget.post.user.username}",
@@ -59,8 +81,9 @@ class _PostDetailedViewState extends State<PostDetailedView> {
           child: Column(
         children: [
           PostView(
-            true,
-            widget.post,
+            isView: true,
+            post: widget.post,
+            redirect: Redirect.Post,
           ),
           Expanded(
               child: ListView(
@@ -82,6 +105,7 @@ class _PostDetailedViewState extends State<PostDetailedView> {
                       children: <Widget>[
                         Expanded(
                           child: TextField(
+                            //enabled: globals.isLogged,
                             onChanged: (text) {
                               if (controller.text.length > 0) {
                                 setState(() {
@@ -131,7 +155,8 @@ class Commentary extends StatefulWidget {
 class _CommentaryState extends State<Commentary> {
   @override
   Widget build(BuildContext context) {
-    int difference = DateTime.now().difference(widget.comment.createdAt).inHours;
+    int difference =
+        DateTime.now().difference(widget.comment.createdAt).inHours;
 
     return Card(
         margin: EdgeInsets.symmetric(vertical: 1.0),
