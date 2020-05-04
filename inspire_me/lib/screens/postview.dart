@@ -20,29 +20,33 @@ class _PostViewState extends State<PostView> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Login(),
+            builder: (context) => Login(
+              redirect: widget.redirect,
+              post: widget.post,
+            ),
           ));
-    }
-    if (state == false) {
-      setState(() {
-        if (action == 'likes') {
-          widget.post.upVote += 1;
-          widget.post.upVoted = true;
-        } else if (action == 'dislikes') {
-          widget.post.downVote += 1;
-          widget.post.downVoted = true;
-        }
-      });
-    } else if (state == true) {
-      setState(() {
-        if (action == 'likes') {
-          widget.post.upVote -= 1;
-          widget.post.upVoted = false;
-        } else if (action == 'dislikes') {
-          widget.post.downVote -= 1;
-          widget.post.downVoted = false;
-        }
-      });
+    } else {
+      if (state == false) {
+        setState(() {
+          if (action == 'likes') {
+            widget.post.upVote += 1;
+            widget.post.upVoted = true;
+          } else if (action == 'dislikes') {
+            widget.post.downVote += 1;
+            widget.post.downVoted = true;
+          }
+        });
+      } else if (state == true) {
+        setState(() {
+          if (action == 'likes') {
+            widget.post.upVote -= 1;
+            widget.post.upVoted = false;
+          } else if (action == 'dislikes') {
+            widget.post.downVote -= 1;
+            widget.post.downVoted = false;
+          }
+        });
+      }
     }
   }
 

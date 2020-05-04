@@ -82,12 +82,12 @@ class _HomeState extends State<Home> {
           body: TabBarView(children: [
             ListView(
               children: globals.listPosts
-                  .map((post) => PostView(isView: false, post: post))
+                  .map((post) => PostView(isView: false, post: post,redirect: Redirect.Home,))
                   .toList(),
             ),
             ListView(
               children: globals.listPosts
-                  .map((post) => PostView(isView: false, post: post))
+                  .map((post) => PostView(isView: false, post: post,redirect: Redirect.Home))
                   .toList(),
             ),
             ListView(
