@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import './addpost.dart';
 import '../class/postclass.dart';
+import '../library/globals.dart' as globals;
+import 'login.dart';
 
 class AddButton extends StatefulWidget {
   final ConfirmCallback confirm;
@@ -72,11 +74,17 @@ class _AddButtonState extends State<AddButton>
 
   add(Type type) {
     animate();
+    if (globals.isLogged) {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => AddPost(type,widget.confirm)),
+        MaterialPageRoute(builder: (context) => AddPost(type, widget.confirm)),
       );
+    }else{
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Login(redirect: Redirect.Home)),
+      );
+    }
   }
 
   Widget photo() {
