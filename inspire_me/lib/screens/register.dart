@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:inspire_me/class/api.dart';
 import 'package:inspire_me/class/hexcolors.dart';
 import 'package:inspire_me/class/user.dart';
 import '../library/globals.dart' as globals;
@@ -22,11 +23,28 @@ class _RegisterState extends State<Register> {
   String password;
   String confirmPassword;
   bool hasErrors = false;
-  User user;
 
   register() {
-    print(user);
-    //globals.isLogged = true;
+    FocusScope.of(context).unfocus();
+    if (_signUpKey.currentState.validate()) {
+      setState(() {
+        hasErrors = false;
+        createUser().then((User user) {
+          setState(() {
+            globals.currentUser = user;
+            globals.isLogged = true;
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          });
+        });
+      });
+    } else {
+      setState(() {
+        hasErrors = true;
+      });
+    }
   }
 
   Future<User> createUser() async {
@@ -42,11 +60,11 @@ class _RegisterState extends State<Register> {
       }),
     );
     if (response.statusCode == 201) {
-      var data = jsonDecode(response.body);
-      var rest = data["data"] as List;
-      print(rest);
-
-      //return User.fromJson();
+      //var api = Api<UserResponse>.fromJson(json.decode(response.body));
+      var api = Api.fromJson(json.decode(response.body));
+      globals.token = api.meta.token;
+      var userResponse = UserResponse.fromJson(api.data);
+      return (userResponse.user);
     } else {
       throw Exception('Failed to create user');
     }
@@ -233,25 +251,7 @@ class _RegisterState extends State<Register> {
                                 borderRadius: BorderRadius.circular(18.0),
                                 side: BorderSide(color: Colors.red)),
                             onPressed: () {
-                              FocusScope.of(context).unfocus();
-                              if (_signUpKey.currentState.validate()) {
-                                setState(() {
-                                  hasErrors = false;
-                                  createUser().then((User user) {
-                                    setState(() {
-                                      user = user;
-                                     print(user.username);
-                                     print(user.createdAt);
-                                     print(user.email.toString());
-                                    });
-                                    register();
-                                  });
-                                });
-                              } else {
-                                setState(() {
-                                  hasErrors = true;
-                                });
-                              }
+                              register();
                             },
                             child: Text('Register'),
                           ),

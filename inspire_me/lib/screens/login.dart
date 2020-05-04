@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:inspire_me/class/api.dart';
 import 'package:inspire_me/class/hexcolors.dart';
+import 'package:inspire_me/class/user.dart';
 import 'package:inspire_me/screens/register.dart';
 import '../library/globals.dart' as globals;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'home.dart';
 
@@ -16,10 +20,40 @@ class _LoginState extends State<Login> {
   String password;
 
   login() {
-     FocusScope.of(context).unfocus();
+    FocusScope.of(context).unfocus();
     if (_loginKey.currentState.validate()) {
+      setState(() {
+        createUser().then((User user) {
+          setState(() {
+            globals.currentUser = user;
+            globals.isLogged = true;
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          });
+        });
+      });
     }
-    //globals.isLogged = true;
+  }
+
+  Future<User> createUser() async {
+    final http.Response response = await http.post(
+      '${globals.url}/auth/signin',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'email': email, 'password': password}),
+    );
+    if (response.statusCode == 201) {
+      //var api = Api<UserResponse>.fromJson(json.decode(response.body));
+      var api = Api.fromJson(json.decode(response.body));
+      globals.token = api.meta.token;
+      var userResponse = UserResponse.fromJson(api.data);
+      return (userResponse.user);
+    } else {
+      throw Exception('Failed to create user');
+    }
   }
 
   goToRegister() {
@@ -102,16 +136,17 @@ class _LoginState extends State<Login> {
                                     MediaQuery.of(context).size.width * 0.15,
                                 vertical: 10),
                             child: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
                               validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter your email';
-                              } else if (!RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value)) {
-                                return 'Please enter a correct email';
-                              }
-                              return null;
-                            },
+                                if (value.isEmpty) {
+                                  return 'Please enter your email';
+                                } else if (!RegExp(
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value)) {
+                                  return 'Please enter a correct email';
+                                }
+                                return null;
+                              },
                               onChanged: (text) {
                                 setState(() {
                                   email = text;

@@ -3,11 +3,25 @@ class Api<T> {
   T data;
   Meta meta;
 
-  factory Api.fromJson(Map<String, dynamic> json){
+  Api({this.status, this.data, this.meta});
 
+  factory Api.fromJson(Map<String, dynamic> json) {
+    return Api(
+      status: json['status'],
+      data: json['data'],
+      meta: Meta.fromJson(json['meta']),
+    );
   }
 }
 
 class Meta {
   String token;
+
+  Meta({this.token});
+
+  factory Meta.fromJson(Map<String, dynamic> json) {
+    return Meta(
+      token: json['token'],
+    );
+  }
 }
