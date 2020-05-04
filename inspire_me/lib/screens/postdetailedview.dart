@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './postview.dart';
 import '../class/postclass.dart';
 import '../class/user.dart';
+import '../library/globals.dart' as globals;
 
 class PostDetailedView extends StatefulWidget {
   final Post post;
@@ -16,8 +17,7 @@ class _PostDetailedViewState extends State<PostDetailedView> {
 
   addComment(comment) {
     widget.post.comments.add(Comment(
-        User(3,'email', 'Steeve', 'password', DateTime(2020, 05, 01, 13, 00),
-            'profilPic'),
+       globals.currentUser,
         comment,
         DateTime.now()));
     FocusScope.of(context).unfocus();

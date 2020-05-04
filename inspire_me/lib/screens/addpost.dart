@@ -34,8 +34,7 @@ class _AddTextState extends State<AddPost> {
         [],
         content,
         section,
-        User(5, 'email', 'Pierre', 'password', DateTime(2020, 05, 01, 13, 00),
-            'profilPic'),
+        globals.currentUser,
         widget.type));
     Navigator.push(
         context,
