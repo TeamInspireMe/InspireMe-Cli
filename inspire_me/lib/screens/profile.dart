@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../library/globals.dart' as globals;
+import 'home.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -7,6 +8,16 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  logout() {
+    globals.isLogged = false;
+    globals.currentUser = null;
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Home(),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +30,40 @@ class _ProfileState extends State<Profile> {
         ),
         backgroundColor: Colors.white,
       ),
+      body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Container(
+          height: 50,
+                  child: Center(
+            child: Text(
+            'Email: ${globals.currentUser.email}',
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          )),
+        ),
+        Divider(color: Colors.grey),
+        FlatButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Home(),
+                ));
+          },
+          child: Container(
+            width: 175,
+            child: RawMaterialButton(
+              fillColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(color: Colors.red)),
+              onPressed: () {
+                logout();
+              },
+              child: Text('Logout'),
+            ),
+          ),
+        )
+      ]),
     );
   }
 }
