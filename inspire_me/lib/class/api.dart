@@ -1,6 +1,6 @@
-class Api<T> {
+class Api{
   int status;
-  T data;
+  Map<String, dynamic> data;
   Meta meta;
 
   Api({this.status, this.data, this.meta});

@@ -46,11 +46,9 @@ class _LoginState extends State<Login> {
       body: jsonEncode(<String, String>{'email': email, 'password': password}),
     );
     if (response.statusCode == 201) {
-      //var api = Api<UserResponse>.fromJson(json.decode(response.body));
       var api = Api.fromJson(json.decode(response.body));
-      globals.token = api.meta.token;
-      var userResponse = UserResponse.fromJson(api.data);
-      return (userResponse.user);
+      print(User.fromJson(api.data['user']));
+      return (User.fromJson(api.data['user']));
     } else {
       throw Exception('Failed to create user');
     }

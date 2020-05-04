@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import './postdetailedview.dart';
 import '../class/postclass.dart';
+import '../library/globals.dart' as globals;
 
 class PostView extends StatefulWidget {
   final bool isView;
@@ -13,6 +14,9 @@ class PostView extends StatefulWidget {
 
 class _PostViewState extends State<PostView> {
   void interact(state, action) {
+    if(!globals.isLogged){
+      
+    }
     if (state == false) {
       setState(() {
         if (action == 'likes') {

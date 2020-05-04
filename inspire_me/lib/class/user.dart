@@ -7,6 +7,7 @@ class UserResponse {
   UserResponse({this.user});
 
   factory UserResponse.fromJson(Map<String, dynamic> json) {
+    print(json);
     return UserResponse(
       user: User.fromJson(json['user']),
     );
