@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:inspire_me/class/postclass.dart';
 import 'package:inspire_me/class/user.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'addbutton.dart';
 import './home.dart';
 import '../library/globals.dart' as globals;
+import '../library/graphql.dart' as graphql;
 
 class AddPost extends StatefulWidget {
   final Type type;
@@ -26,7 +28,7 @@ class _AddTextState extends State<AddPost> {
   post(Section section, String title, String content) {
     FocusScope.of(context).unfocus();
     widget.confirm(Post(
-        globals.listPosts.length + 1,
+         '1',
         title,
         DateTime.now(),
         0,
@@ -39,8 +41,7 @@ class _AddTextState extends State<AddPost> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Home(),
-        ));
+          builder: (context) => GraphQLProvider(client: graphql.client, child: Home())));
   }
 
   String _validateSection(Section _section) {
@@ -180,7 +181,7 @@ class _ContentState extends State<Content> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.type == Type.Text) {
+    if (widget.type == Type.Quote) {
       return Flexible(
         child: Container(
           padding: EdgeInsets.fromLTRB(20, 10, 0, 0),

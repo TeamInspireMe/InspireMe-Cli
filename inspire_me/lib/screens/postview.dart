@@ -53,7 +53,7 @@ class _PostViewState extends State<PostView> {
   @override
   Widget build(BuildContext context) {
     int difference = DateTime.now().difference(widget.post.hour).inHours;
-    bool isMedia = enumToString(widget.post.type) != 'Text';
+    bool isMedia = enumToString(widget.post.type) != 'Quote';
     return GestureDetector(
       onTap: () {
         if (!widget.isView)

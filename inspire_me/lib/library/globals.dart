@@ -7,7 +7,9 @@ bool isLogged = false;
 
 int cpt = 10;
 
-List<Post> listPosts = [
+List<Post> listPosts=[];
+
+/*List<Post> listPosts = [
   Post(
       1,
       '1st Post',
@@ -66,12 +68,10 @@ List<Post> listPosts = [
      User(id: '2',email:'thomas@email.fr', username:'Thomas', password:'password',
           createdAt: DateTime(2020, 04, 30, 13, 00), profilPic:'profilPic'),
       Type.Text),
-];
+];*/
 
 User currentUser;
 
-String url='https://inspire-me-app.herokuapp.com/api';
-
-String urlAndroid='http://10.0.2.2:8080/api';
+String url='https://inspire-me-app.herokuapp.com';
 
 String token;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:inspire_me/class/api.dart';
 import 'package:inspire_me/class/hexcolors.dart';
 import 'package:inspire_me/class/postclass.dart';
@@ -6,6 +7,7 @@ import 'package:inspire_me/class/user.dart';
 import 'package:inspire_me/screens/postdetailedview.dart';
 import 'package:inspire_me/screens/register.dart';
 import '../library/globals.dart' as globals;
+import '../library/graphql.dart' as graphql;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -42,7 +44,7 @@ class _LoginState extends State<Login> {
 
   Future<User> createUser() async {
     final http.Response response = await http.post(
-      '${globals.url}/auth/signin',
+      '${globals.url}/api/auth/signin',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -61,7 +63,7 @@ class _LoginState extends State<Login> {
     if (widget.redirect == Redirect.Home) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Home()),
+        MaterialPageRoute(builder: (context) => GraphQLProvider(client:graphql.client, child: Home())),
       );
     } else if (widget.redirect == Redirect.Post) {
       Navigator.push(
@@ -91,6 +93,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

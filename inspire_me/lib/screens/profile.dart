@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import '../library/globals.dart' as globals;
+import '../library/graphql.dart' as graphql;
 import 'home.dart';
 
 class Profile extends StatefulWidget {
@@ -14,8 +16,7 @@ class _ProfileState extends State<Profile> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Home(),
-        ));
+          builder: (context) => GraphQLProvider(client: graphql.client, child: Home())));
   }
 
   @override
@@ -46,8 +47,7 @@ class _ProfileState extends State<Profile> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Home(),
-                ));
+                  builder: (context) =>  GraphQLProvider(client: graphql.client, child: Home())));
           },
           child: Container(
             width: 175,

@@ -1,7 +1,7 @@
 import './user.dart';
 
 class Post {
-  int id;
+  String id;
   String title;
   DateTime hour;
   int upVote;
@@ -37,9 +37,9 @@ class Comment{
   Comment(this.user,this.text,this.createdAt);
 }
 
-enum Section{Science,Travels,Funny,Motivation}
+enum Section{Science,Travels,Funny,Motivation,Space}
 
-enum Type{Text,Video,Photo}
+enum Type{Quote,Video,Photo}
 
 enum Redirect{Home,Post}
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import './postview.dart';
 import '../class/postclass.dart';
 import '../class/user.dart';
 import '../library/globals.dart' as globals;
+import '../library/graphql.dart' as graphql;
 import 'home.dart';
 import 'login.dart';
 
@@ -59,8 +61,7 @@ class _PostDetailedViewState extends State<PostDetailedView> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Home(),
-                  ));
+                    builder: (context) => GraphQLProvider(client: graphql.client, child: Home())));
             }),
         centerTitle: true,
         title: Text(

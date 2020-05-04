@@ -120,7 +120,7 @@ class _AddButtonState extends State<AddButton>
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          add(Type.Text);
+          add(Type.Quote);
         },
         tooltip: 'Text',
         child: Icon(
