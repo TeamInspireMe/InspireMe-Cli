@@ -74,8 +74,10 @@ class _PostViewState extends State<PostView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('${widget.post.title}',
-                        style: TextStyle(fontSize: 30.0)),
+                    Expanded(
+                      child: Text('${widget.post.title}',
+                          style: TextStyle(fontSize: 30.0)),
+                    ),
                     Column(
                       children: <Widget>[
                         Text('${enumToString(widget.post.category)}',

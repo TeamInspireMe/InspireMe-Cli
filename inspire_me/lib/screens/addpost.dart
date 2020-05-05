@@ -41,7 +41,7 @@ class _AddTextState extends State<AddPost> {
         'userId':globals.currentUser.id,
         'file':content
         }),
-    ).timeout(const Duration(seconds: 10));
+    );
     print(response.statusCode);
     if (response.statusCode == 201) {
       var api = Api.fromJson(json.decode(response.body));
