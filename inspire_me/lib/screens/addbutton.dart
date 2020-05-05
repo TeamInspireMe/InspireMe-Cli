@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import './addpost.dart';
 import '../class/postclass.dart';
 import '../library/globals.dart' as globals;
+import '../library/graphql.dart' as graphql;
 import 'login.dart';
 
 class AddButton extends StatefulWidget {
-  final ConfirmCallback confirm;
-
-  AddButton(this.confirm);
-
   @override
   _AddButtonState createState() => _AddButtonState();
 }
@@ -77,9 +75,11 @@ class _AddButtonState extends State<AddButton>
     if (globals.isLogged) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AddPost(type, widget.confirm)),
+        MaterialPageRoute(
+            builder: (context) => GraphQLProvider(
+                client: graphql.client, child: AddPost(type))),
       );
-    }else{
+    } else {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Login(redirect: Redirect.Home)),
@@ -92,7 +92,7 @@ class _AddButtonState extends State<AddButton>
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          add(Type.Photo);
+          add(Type.Picture);
         },
         tooltip: 'Picture',
         child: Icon(Icons.photo_library, color: Colors.red),

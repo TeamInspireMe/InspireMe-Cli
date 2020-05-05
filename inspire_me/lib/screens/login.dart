@@ -52,7 +52,6 @@ class _LoginState extends State<Login> {
     );
     if (response.statusCode == 201) {
       var api = Api.fromJson(json.decode(response.body));
-      print(User.fromJson(api.data['user']));
       return (User.fromJson(api.data['user']));
     } else {
       throw Exception('Failed to create user');

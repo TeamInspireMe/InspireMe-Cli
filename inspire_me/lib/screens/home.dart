@@ -14,10 +14,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  add(Post post) {
-    //globals.listPosts.add(post);
-  }
-
   String getPostsQuery = """ 
   query {
     getAllPost {
@@ -32,11 +28,16 @@ class _HomeState extends State<Home> {
         name
       }
       upVote,
+      commentCount,
       downVote,
       createdAt
     }
   }
 """;
+
+String addQuery="""
+
+  """;
 
   account() {
     if (!globals.isLogged) {
@@ -127,35 +128,31 @@ class _HomeState extends State<Home> {
                         Type _type = Type.values.firstWhere((e) =>
                             enumToString(e).toLowerCase() ==
                             data['type']['name']);
-                        Section _section = Section.values.firstWhere((e) =>
-                            enumToString(e).toLowerCase() ==
-                            data['section']['name']);
                         DateTime _createdAt =
                             DateTime.parse(data['createdAt'].toString());
                         Post post = new Post(
-                            data['uuid'],
-                            data['title'],
-                            _createdAt,
-                            data['upVote'],
-                            data['downVote'],
-                            [],
-                            data['data'],
-                            _section,
-                            User(
+                            id: data['uuid'],
+                            title: data['title'],
+                            hour: _createdAt,
+                            upVote:data['upVote'],
+                            downVote:data['downVote'],
+                            comments:[],
+                            content:data['data'],
+                            category:data['section']['name'],
+                            user: User(
                                 id: '2',
                                 email: 'thomas@email.fr',
                                 username: 'Thomas',
                                 password: 'password',
                                 createdAt: DateTime(2020, 04, 30, 13, 00),
                                 profilPic: 'profilPic'),
-                            _type);
+                            type: _type);
                         return PostView(
                           isView: false,
                           post: post,
                           redirect: Redirect.Home,
                         );
                       },
-                      //PostView(isView: false, post: post,redirect: Redirect.Home,)
                     ),
                     ListView.builder(
                       itemCount: result.data['getAllPost'].length,
@@ -164,35 +161,31 @@ class _HomeState extends State<Home> {
                         Type _type = Type.values.firstWhere((e) =>
                             enumToString(e).toLowerCase() ==
                             data['type']['name']);
-                        Section _section = Section.values.firstWhere((e) =>
-                            enumToString(e).toLowerCase() ==
-                            data['section']['name']);
                         DateTime _createdAt =
                             DateTime.parse(data['createdAt'].toString());
                         Post post = new Post(
-                            data['uuid'],
-                            data['title'],
-                            _createdAt,
-                            data['upVote'],
-                            data['downVote'],
-                            [],
-                            data['data'],
-                            _section,
-                            User(
+                            id: data['uuid'],
+                            title: data['title'],
+                            hour: _createdAt,
+                            upVote:data['upVote'],
+                            downVote:data['downVote'],
+                            comments:[],
+                            content:data['data'],
+                            category:data['section']['name'],
+                            user: User(
                                 id: '2',
                                 email: 'thomas@email.fr',
                                 username: 'Thomas',
                                 password: 'password',
                                 createdAt: DateTime(2020, 04, 30, 13, 00),
                                 profilPic: 'profilPic'),
-                            _type);
+                            type: _type);
                         return PostView(
                           isView: false,
                           post: post,
                           redirect: Redirect.Home,
                         );
                       },
-                      //PostView(isView: false, post: post,redirect: Redirect.Home,)
                     ),
                     ListView.builder(
                       itemCount: result.data['getAllPost'].length,
@@ -201,40 +194,36 @@ class _HomeState extends State<Home> {
                         Type _type = Type.values.firstWhere((e) =>
                             enumToString(e).toLowerCase() ==
                             data['type']['name']);
-                        Section _section = Section.values.firstWhere((e) =>
-                            enumToString(e).toLowerCase() ==
-                            data['section']['name']);
                         DateTime _createdAt =
                             DateTime.parse(data['createdAt'].toString());
                         Post post = new Post(
-                            data['uuid'],
-                            data['title'],
-                            _createdAt,
-                            data['upVote'],
-                            data['downVote'],
-                            [],
-                            data['data'],
-                            _section,
-                            User(
+                            id: data['uuid'],
+                            title: data['title'],
+                            hour: _createdAt,
+                            upVote:data['upVote'],
+                            downVote:data['downVote'],
+                            comments:[],
+                            content:data['data'],
+                            category:data['section']['name'],
+                            user: User(
                                 id: '2',
                                 email: 'thomas@email.fr',
                                 username: 'Thomas',
                                 password: 'password',
                                 createdAt: DateTime(2020, 04, 30, 13, 00),
                                 profilPic: 'profilPic'),
-                            _type);
+                            type: _type);
                         return PostView(
                           isView: false,
                           post: post,
                           redirect: Redirect.Home,
                         );
                       },
-                      //PostView(isView: false, post: post,redirect: Redirect.Home,)
                     ),
                   ]);
                 }
               }),
-          floatingActionButton: AddButton(add)),
+          floatingActionButton: AddButton()),
     );
   }
 }

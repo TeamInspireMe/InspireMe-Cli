@@ -90,7 +90,7 @@ class _PostViewState extends State<PostView> {
                 ),
               ),
               isMedia
-                  ? Image.asset('${widget.post.content}',
+                  ? Image.network('${widget.post.content}',
                       width: double.infinity, fit: BoxFit.cover)
                   : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),

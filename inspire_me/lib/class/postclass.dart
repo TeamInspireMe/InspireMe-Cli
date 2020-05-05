@@ -7,25 +7,27 @@ class Post {
   int upVote;
   int downVote;
   List<Comment> comments;
+  int nbComments;
   String content;
-  Section category;
+  String category;
   bool upVoted = false;
   bool downVoted = false;
   User user;
   Type type;
 
-  Post(
+  Post({
     this.id,
     this.title,
     this.hour,
     this.upVote,
     this.downVote,
     this.comments,
+    this.nbComments,
     this.content,
     this.category,
     this.user,
     this.type,
-    );
+  });
 }
 
 class Comment{
@@ -37,18 +39,21 @@ class Comment{
   Comment(this.user,this.text,this.createdAt);
 }
 
-enum Section{Science,Travels,Funny,Motivation,Space}
+class Section{
+  int id;
+  String name;
+  Section({this.id,this.name});
 
-enum Type{Quote,Video,Photo}
+  factory Section.fromJson(Map<String, dynamic> json){
+    return Section(
+      id: json['id'],
+      name: json['name']
+    );
+  }
+}
+
+enum Type{Quote,Video,Picture}
 
 enum Redirect{Home,Post}
 
 String enumToString(Object o) => o.toString().split('.').last;
-
-isInSection(String str) {
-    for (Section cat in Section.values) {
-        if (enumToString(cat)==str)
-            return true;
-    }
-    return false;
-}

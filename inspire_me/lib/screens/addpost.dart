@@ -12,44 +12,42 @@ import '../library/graphql.dart' as graphql;
 
 class AddPost extends StatefulWidget {
   final Type type;
-  final ConfirmCallback confirm;
 
-  AddPost(this.type, this.confirm);
+  AddPost(this.type);
   @override
   _AddTextState createState() => _AddTextState();
 }
 
 class _AddTextState extends State<AddPost> {
   final _formKey = GlobalKey<FormState>();
-  Section section;
+  Section _section;
   String title;
   String content;
 
-  post(Section section, String title, String content) {
+  post(String section, String title, String content) {
     FocusScope.of(context).unfocus();
-    widget.confirm(Post(
-         '1',
-        title,
-        DateTime.now(),
-        0,
-        0,
-        [],
-        content,
-        section,
-        globals.currentUser,
-        widget.type));
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => GraphQLProvider(client: graphql.client, child: Home())));
+            builder: (context) =>
+                GraphQLProvider(client: graphql.client, child: Home())));
   }
 
   String _validateSection(Section _section) {
-    if (!isInSection(enumToString(_section))) {
+    if (_section == null) {
       return 'Please select a category';
     }
     return null;
   }
+
+  String getSections = """
+      query {
+  getAllSection {
+    id,
+    name
+  }
+}
+  """;
 
   setContent(text) {
     setState(() {
@@ -74,8 +72,7 @@ class _AddTextState extends State<AddPost> {
           FlatButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  
-                  post(section, title, content);
+                  //post(section, title, content);
                 }
               },
               child: Text(
@@ -84,7 +81,7 @@ class _AddTextState extends State<AddPost> {
               ))
         ],
       ),
-      resizeToAvoidBottomInset :false,
+      resizeToAvoidBottomInset: false,
       body: Form(
         key: _formKey,
         child: Column(
@@ -94,24 +91,42 @@ class _AddTextState extends State<AddPost> {
               margin: EdgeInsets.only(
                   right: MediaQuery.of(context).size.width * 0.6),
               padding: EdgeInsets.fromLTRB(20, 10, 0, 0),
-              child: DropdownButtonFormField<Section>(
-                isExpanded: false,
-                value: section,
-                hint: (Text('Select your category')),
-                validator: _validateSection,
-                decoration: InputDecoration.collapsed(hintText: ''),
-                icon: Icon(Icons.keyboard_arrow_down),
-                onChanged: (Section newSection) {
-                  setState(() {
-                    section = newSection;
-                  });
-                },
-                items: Section.values.map((Section classType) {
-                  return DropdownMenuItem<Section>(
-                      value: classType,
-                      child: Text(enumToString(classType)));
-                }).toList(),
-              ),
+              child: Query(
+                  options: QueryOptions(documentNode: gql(getSections)),
+                  builder: (
+                    QueryResult result, {
+                    Refetch refetch,
+                    FetchMore fetchMore,
+                  }) {
+                    if (result.data == null) {
+                      return Text('Error no sections avalaible');
+                    } else {
+                      List<Section> sections = [];
+                      for (var i = 0;
+                          i < result.data['getAllSection'].length;
+                          i++) {
+                        sections.add(
+                            Section.fromJson(result.data['getAllSection'][i]));
+                      }
+                      return DropdownButtonFormField<Section>(
+                          isExpanded: false,
+                          value: null,
+                          hint: (Text(_section == null ?'Select your category':_section.name)),
+                          validator: _validateSection,
+                          decoration: InputDecoration.collapsed(hintText: ''),
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          onChanged: (Section newSection) {
+                            setState(() {
+                              _section = newSection;
+                              print(_section.name);
+                            });
+                          },
+                          items: sections.map((Section _section) {
+                            return DropdownMenuItem<Section>(
+                                value: _section, child: Text(_section.name));
+                          }).toList());
+                    }
+                  }),
             ),
             Divider(color: Colors.grey),
             Flexible(
@@ -194,7 +209,7 @@ class _ContentState extends State<Content> {
               )),
         ),
       );
-    } else if (widget.type == Type.Photo) {
+    } else if (widget.type == Type.Picture) {
       return Flexible(
         child: Padding(
           padding: const EdgeInsets.only(top: 15.0),
@@ -254,7 +269,11 @@ class _ContentState extends State<Content> {
               ),
               _image == null
                   ? Text('No image selected.')
-                  : Expanded(child: Image.file(_image,fit: BoxFit.cover,))
+                  : Expanded(
+                      child: Image.file(
+                      _image,
+                      fit: BoxFit.cover,
+                    ))
             ],
           ),
         ),
