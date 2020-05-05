@@ -27,21 +27,28 @@ class _AddTextState extends State<AddPost> {
   String title;
   String content;
 
-    /*Future<User> postImage() async {
+    Future<Api> postImage() async {
+      print(globals.token);
     final http.Response response = await http.post(
-      '${globals.url}/api/auth/signin',
+      '${globals.url}/api/post/uploadPic',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer ${globals.token}',
       },
-      body: jsonEncode(<String, String>{'email': email, 'password': password}),
-    );
+      body: jsonEncode(<String, String>{
+        'title': title, 
+        'sectionId':_section.id.toString(),
+        'userId':globals.currentUser.id,
+        'file':content
+        }),
+    ).timeout(const Duration(seconds: 10));
+    print(response.statusCode);
     if (response.statusCode == 201) {
       var api = Api.fromJson(json.decode(response.body));
-      return (User.fromJson(api.data['user']));
     } else {
-      throw Exception('Failed to create user');
+      throw Exception('Failed to upload pic');
     }
-  }*/
+  }
 
   post() {
     FocusScope.of(context).unfocus();
@@ -125,6 +132,7 @@ class _AddTextState extends State<AddPost> {
                         });
                         }else{
                           print(widget.type);
+                          postImage();
                         }
                       }
                     },

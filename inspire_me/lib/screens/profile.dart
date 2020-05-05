@@ -13,6 +13,7 @@ class _ProfileState extends State<Profile> {
   logout() {
     globals.isLogged = false;
     globals.currentUser = null;
+    globals.token = null;
     Navigator.push(
         context,
         MaterialPageRoute(
