@@ -24,7 +24,7 @@ class _AddTextState extends State<AddPost> {
   String title;
   String content;
 
-  post(String section, String title, String content) {
+  post() {
     FocusScope.of(context).unfocus();
     Navigator.push(
         context,
@@ -49,6 +49,21 @@ class _AddTextState extends State<AddPost> {
 }
   """;
 
+  String addPostQuery = r'''
+        mutation addPost($title: String!, $typeId: Int!, $sectionId: Int!, $data: String!, $userId:String!){
+  createPost(title: $title, typeId: $typeId, sectionId: $sectionId, data: $data,userId: $userId) {
+  	uuid,
+    data,
+    title,
+    createdAt,
+    section{
+      id,
+      name
+    }
+  }
+}
+  ''';
+
   setContent(text) {
     setState(() {
       content = text;
@@ -69,16 +84,35 @@ class _AddTextState extends State<AddPost> {
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
-          FlatButton(
-              onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  //post(section, title, content);
-                }
+          Mutation(
+              options: MutationOptions(
+                documentNode: gql(addPostQuery),
+                onCompleted: (dynamic resultdata){
+                  post();
+                }),
+              builder: (RunMutation insert, QueryResult result) {
+                return FlatButton(
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        if(widget.type==Type.Quote){
+                        insert(<String ,dynamic >
+                        {
+                          "title": title,
+                          "typeId": 1,
+                          "sectionId": _section.id,
+                          "data": content,
+                          "userId":
+                             globals.currentUser.id
+                        });
+                        }
+                      }
+                    },
+                    child: Text(
+                      'Post',
+                      style: TextStyle(color: Colors.orange, fontSize: 20),
+                    ));
               },
-              child: Text(
-                'Post',
-                style: TextStyle(color: Colors.orange, fontSize: 20),
-              ))
+              ),
         ],
       ),
       resizeToAvoidBottomInset: false,
@@ -111,14 +145,15 @@ class _AddTextState extends State<AddPost> {
                       return DropdownButtonFormField<Section>(
                           isExpanded: false,
                           value: null,
-                          hint: (Text(_section == null ?'Select your category':_section.name)),
+                          hint: (Text(_section == null
+                              ? 'Select your category'
+                              : _section.name)),
                           validator: _validateSection,
                           decoration: InputDecoration.collapsed(hintText: ''),
                           icon: Icon(Icons.keyboard_arrow_down),
                           onChanged: (Section newSection) {
                             setState(() {
                               _section = newSection;
-                              print(_section.name);
                             });
                           },
                           items: sections.map((Section _section) {
