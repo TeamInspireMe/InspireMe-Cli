@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:inspire_me/class/api.dart';
 import 'package:inspire_me/class/postclass.dart';
 import 'package:inspire_me/class/user.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +11,7 @@ import 'addbutton.dart';
 import './home.dart';
 import '../library/globals.dart' as globals;
 import '../library/graphql.dart' as graphql;
+import 'package:http/http.dart' as http;
 
 class AddPost extends StatefulWidget {
   final Type type;
@@ -23,6 +26,22 @@ class _AddTextState extends State<AddPost> {
   Section _section;
   String title;
   String content;
+
+    /*Future<User> postImage() async {
+    final http.Response response = await http.post(
+      '${globals.url}/api/auth/signin',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'email': email, 'password': password}),
+    );
+    if (response.statusCode == 201) {
+      var api = Api.fromJson(json.decode(response.body));
+      return (User.fromJson(api.data['user']));
+    } else {
+      throw Exception('Failed to create user');
+    }
+  }*/
 
   post() {
     FocusScope.of(context).unfocus();
@@ -104,6 +123,8 @@ class _AddTextState extends State<AddPost> {
                           "userId":
                              globals.currentUser.id
                         });
+                        }else{
+                          print(widget.type);
                         }
                       }
                     },
